@@ -17,6 +17,8 @@ class testApp : public ofBaseApp{
 		void exit();
 
 		void updateKinect();
+		void setGui();
+		void guiEvent(ofxUIEventArgs &e);
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -39,7 +41,11 @@ class testApp : public ofBaseApp{
         float minBlobSize, maxBlobSize;
 
         int servoDelay;
-        float byteOutput;
+        float byteOutput, maxDistance;
         float kinectDistance, kinectOutput;
+
+        float border1, border2;
+
+        ofxUISuperCanvas *gui;
 
 };
