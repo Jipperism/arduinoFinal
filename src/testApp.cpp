@@ -9,15 +9,24 @@ void testApp::setup(){
     kinect.init();
     kinect.open();
     kinect.setCameraTiltAngle(0);
+
     lowTreshold = 230;
 	highTreshold = 70;
 	nBlobs = 1;
 	minBlobSize = ofGetWindowHeight()*ofGetWindowWidth()/20;
 	maxBlobSize = ofGetWindowHeight()*ofGetWindowWidth()/2;
 
+    grayImage.allocate(kinect.width, kinect.height);
+	grayThreshNear.allocate(kinect.width, kinect.height);
+	grayThreshFar.allocate(kinect.width, kinect.height);
+
     serial.enumerateDevices();
-    serial.setup("COM5", 9600);
+    //serial.setup("COM5", 9600);
     servoDelay = 15;
+
+    kinectOutput = 0;
+    kinectDistance = 0;
+    nBlobs = 1;
 
 }
 
@@ -34,8 +43,13 @@ void testApp::update(){
             servoDelay = 20;
         }
         ofClamp(servoDelay, 10, 20);
-        serial.writeByte(servoDelay);
-        cout << servoDelay << endl;
+        //serial.writeByte(servoDelay);
+        //cout << servoDelay << endl;
+    }
+
+    if(kinectOutput > kinectDistance){
+        kinectOutput = kinectDistance;
+        cout << kinectOutput << endl;
     }
 }
 
@@ -56,10 +70,26 @@ void testApp::updateKinect(){
 
     contourFinder.findContours(grayImage, minBlobSize, maxBlobSize, nBlobs, true);
 
+    if(contourFinder.nBlobs != 0){
+        for (int i=0; i < nBlobs; i++){
+            ofVec3f tempPos = contourFinder.blobs[i].centroid;
+            ofPoint tempKinectPos = kinect.getWorldCoordinateAt(tempPos.x, tempPos.y);
+            if (tempKinectPos.z != 0){
+
+                if (tempKinectPos.z > kinectDistance){
+                kinectDistance = tempKinectPos.z;
+                cout << kinectDistance << endl;
+                }
+            }
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    grayImage.draw(0,0,ofGetWindowWidth(),ofGetWindowHeight());
+    contourFinder.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
 
 }
 

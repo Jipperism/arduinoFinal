@@ -39,5 +39,7 @@ class testApp : public ofBaseApp{
         float minBlobSize, maxBlobSize;
 
         int servoDelay;
+        float byteOutput;
+        float kinectDistance, kinectOutput;
 
 };
