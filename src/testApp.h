@@ -6,6 +6,7 @@
 #include "ofxXmlSettings.h"
 #include "ofxUI.h"
 #include "ofxOsc.h"
+#include "ofxMidi.h"
 
 class testApp : public ofBaseApp{
 
@@ -13,6 +14,9 @@ class testApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		void exit();
+
+		void updateKinect();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -23,5 +27,17 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+        ofxKinect kinect;
+		ofSerial serial;
+
+        ofxCvContourFinder contourFinder;
+        ofxCvGrayscaleImage grayImage;
+        ofxCvGrayscaleImage grayThreshNear;
+        ofxCvGrayscaleImage grayThreshFar;
+        int lowTreshold, highTreshold, nBlobs;
+        float minBlobSize, maxBlobSize;
+
+        int servoDelay;
 
 };

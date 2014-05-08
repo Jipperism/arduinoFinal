@@ -3,3 +3,4 @@ ofxOpenCv
 ofxOsc
 ofxXmlSettings
 ofxUI
+ofxMidi
