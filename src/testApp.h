@@ -31,21 +31,25 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
         ofxKinect kinect;
+        ofxKinect kinect2;
 		ofSerial serial;
 
-        ofxCvContourFinder contourFinder;
-        ofxCvGrayscaleImage grayImage;
-        ofxCvGrayscaleImage grayThreshNear;
-        ofxCvGrayscaleImage grayThreshFar;
+        ofxCvContourFinder contourFinder, contourFinder2;
+        ofxCvGrayscaleImage grayImage, grayImage2;
+        ofxCvGrayscaleImage grayThreshNear, grayThreshNear2;
+        ofxCvGrayscaleImage grayThreshFar, grayThreshFar2;
         int lowTreshold, highTreshold, nBlobs;
         float minBlobSize, maxBlobSize;
 
         int servoDelay;
         float byteOutput, maxDistance;
-        float kinectDistance, kinectOutput;
+        float kinectDistance, kinectOutput, kinect2Distance;
 
-        float border1, border2;
+        float border1, border2, downSpeed;
 
         ofxUISuperCanvas *gui;
+
+        ofPoint kinectWindowPos, kinect2WindowPos;
+        bool swapWindows = false;
 
 };
