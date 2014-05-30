@@ -8,6 +8,9 @@
 #include "ofxOsc.h"
 #include "ofxMidi.h"
 
+//Uncomment de volgende regel als je met 2 kinects werkt
+#define USE_TWO_KINECTS
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -31,17 +34,24 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
         ofxKinect kinect;
-        ofxKinect kinect2;
-		ofSerial serial;
+        ofxCvContourFinder contourFinder;
+        ofxCvGrayscaleImage grayImage, grayThreshNear, grayThreshFar;
+        ofPoint kinectWindowPos;
 
-        ofxCvContourFinder contourFinder, contourFinder2;
-        ofxCvGrayscaleImage grayImage, grayImage2;
-        ofxCvGrayscaleImage grayThreshNear, grayThreshNear2;
-        ofxCvGrayscaleImage grayThreshFar, grayThreshFar2;
+		#ifdef USE_TWO_KINECTS
+        ofxKinect kinect2;
+        ofxCvContourFinder contourFinder2;
+        ofxCvGrayscaleImage grayImage2, grayThreshNear2, grayThreshFar2;
+        ofPoint kinect2WindowPos;
+        #endif
+
+        ofSoundPlayer track1, track2, track3;
+
+        ofSerial serial;
+
         int lowTreshold, highTreshold, nBlobs;
         float minBlobSize, maxBlobSize;
 
-        int servoDelay;
         float byteOutput, maxDistance;
         float kinectDistance, kinectOutput, kinect2Distance;
 
@@ -49,7 +59,6 @@ class testApp : public ofBaseApp{
 
         ofxUISuperCanvas *gui;
 
-        ofPoint kinectWindowPos, kinect2WindowPos;
-        bool swapWindows = false;
+        bool bDrawContours;
 
 };
