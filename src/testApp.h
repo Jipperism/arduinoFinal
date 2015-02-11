@@ -9,7 +9,7 @@
 #include "ofxMidi.h"
 
 //Uncomment de volgende regel als je met 2 kinects werkt
-#define USE_TWO_KINECTS
+//#define USE_TWO_KINECTS
 
 class testApp : public ofBaseApp{
 
@@ -22,6 +22,7 @@ class testApp : public ofBaseApp{
 		void updateKinect();
 		void setGui();
 		void guiEvent(ofxUIEventArgs &e);
+		void setupMidi();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -60,5 +61,8 @@ class testApp : public ofBaseApp{
         ofxUISuperCanvas *gui;
 
         bool bDrawContours;
+
+        int midiChannel;
+        ofxMidiOut midiOut;
 
 };

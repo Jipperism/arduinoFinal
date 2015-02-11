@@ -2,13 +2,14 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
 
     kinect.setRegistration(true);
     kinect.init();
     kinect.open();
-    kinect.setCameraTiltAngle(0);
+    kinect.setCameraTiltAngle(7);
     grayImage.allocate(kinect.width, kinect.height);
 	grayThreshNear.allocate(kinect.width, kinect.height);
 	grayThreshFar.allocate(kinect.width, kinect.height);
@@ -27,9 +28,7 @@ void testApp::setup(){
     kinect2WindowPos.y = 0;
     #endif
 
-    track1.loadSound( "rustig.wav" );
-    track2.loadSound( "midden.wav" );
-    track3.loadSound( "chaos.wav" );
+
 
     lowTreshold = 300;
 	highTreshold = 0;
@@ -38,7 +37,7 @@ void testApp::setup(){
 	maxBlobSize = ofGetWindowHeight()*ofGetWindowWidth()/2;
 
     serial.enumerateDevices();
-    serial.setup("COM5", 9600);
+    serial.setup("COM3", 9600);
 
     kinectOutput = 3500;
     kinectDistance = 0;
@@ -56,10 +55,17 @@ void testApp::setup(){
 
     setGui();
 
+    setupMidi();
 
-    track1.play();
-    track2.play();
-    track3.play();
+}
+
+void testApp::setupMidi() {
+
+    midiOut.listPorts();
+	midiOut.openPort(1);
+
+	midiChannel = 1;
+
 
 }
 
@@ -110,12 +116,15 @@ void testApp::update(){
             byteOutput = ofMap(kinectOutput, border1, 0, 100, 0, true);
             serial.writeByte(byteOutput);
         }
+        cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
+        midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 0, 127));
     }
 
     if(kinectDistance < kinectOutput && kinectDistance != 0){
         kinectOutput = kinectDistance;
     }
     kinectOutput *= (1 + 0.001*downSpeed);
+
 }
 
 //--------------------------------------------------------------
@@ -264,6 +273,7 @@ void testApp::exit() {
 
     kinect.setCameraTiltAngle(0);
     kinect.close();
+    midiOut.closePort();
 
     #ifdef USE_TWO_KINECTS
     kinect2.setCameraTiltAngle(0);

@@ -6,7 +6,7 @@
 		<Option makefile="makefile" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="addons\;src\;addons\ofxUI\src\;addons\ofxOpenCv\libs\opencv\include\opencv2\objdetect\;addons\ofxOpenCv\libs\opencv\include\opencv2\flann\;addons\ofxOpenCv\libs\opencv\include\opencv2\imgproc\;addons\ofxOpenCv\libs\opencv\include\opencv\;addons\ofxOsc\libs\oscpack\src\osc\;addons\ofxOpenCv\libs\opencv\include\opencv2\ml\;addons\ofxOpenCv\libs\opencv\include\opencv2\gpu\;addons\ofxXmlSettings\libs\;addons\ofxOsc\src\;addons\ofxOpenCv\src\;addons\ofxXmlSettings\src\;addons\ofxKinect\libs\libfreenect\src\;addons\ofxOpenCv\libs\opencv\include\opencv2\;addons\ofxKinect\libs\libfreenect\include\;addons\ofxOpenCv\libs\opencv\include\opencv2\core\;addons\ofxOsc\libs\oscpack\src\ip\;addons\ofxKinect\libs\libfreenect\platform\windows\libusb10emu\libusb-1.0\;addons\ofxOsc\libs\oscpack\src\ip\posix\;addons\ofxKinect\libs\libusb-win32\include\;addons\ofxKinect\libs\libfreenect\platform\windows\;addons\ofxOpenCv\libs\opencv\include\opencv2\calib3d\;addons\ofxOpenCv\libs\opencv\include\opencv2\video\;addons\ofxOpenCv\libs\opencv\include\opencv2\ts\;addons\ofxOsc\libs\oscpack\src\ip\win32\;addons\ofxOpenCv\libs\opencv\include\opencv2\legacy\;addons\ofxOpenCv\libs\opencv\include\opencv2\highgui\;addons\ofxOpenCv\libs\opencv\include\opencv2\features2d\;addons\ofxKinect\src\;addons\ofxKinect\libs\libusb-1.0\include\libusb-1.0\;addons\ofxOpenCv\libs\opencv\include\opencv2\contrib\;" />
+		<Option virtualFolders="addons\;src\;addons\ofxUI\src\;addons\ofxOpenCv\libs\opencv\include\opencv2\flann\;addons\ofxOsc\src\;addons\ofxOpenCv\src\;addons\ofxOpenCv\libs\opencv\include\opencv2\legacy\;addons\ofxMidi\src\ios\;addons\ofxKinect\libs\libfreenect\platform\windows\libusb10emu\libusb-1.0\;addons\ofxOpenCv\libs\opencv\include\opencv\;addons\ofxKinect\libs\libfreenect\platform\windows\;addons\ofxKinect\src\extra\;addons\ofxOsc\libs\oscpack\src\ip\;addons\ofxKinect\libs\libfreenect\src\;addons\ofxMidi\src\;addons\ofxOsc\libs\oscpack\src\ip\posix\;addons\ofxOpenCv\libs\opencv\include\opencv2\calib3d\;addons\ofxOsc\libs\oscpack\src\ip\win32\;addons\ofxOpenCv\libs\opencv\include\opencv2\contrib\;addons\ofxOsc\libs\oscpack\src\osc\;addons\ofxOpenCv\libs\opencv\include\opencv2\core\;addons\ofxMidi\libs\pgmidi\;addons\ofxOpenCv\libs\opencv\include\opencv2\objdetect\;addons\ofxKinect\libs\libusb-win32\include\;addons\ofxOpenCv\libs\opencv\include\opencv2\gpu\;addons\ofxMidi\libs\rtmidi\;addons\ofxXmlSettings\src\;addons\ofxOpenCv\libs\opencv\include\opencv2\features2d\;addons\ofxOpenCv\libs\opencv\include\opencv2\ts\;addons\ofxXmlSettings\libs\;addons\ofxOpenCv\libs\opencv\include\opencv2\video\;addons\ofxOpenCv\libs\opencv\include\opencv2\highgui\;addons\ofxKinect\src\;addons\ofxOpenCv\libs\opencv\include\opencv2\imgproc\;addons\ofxKinect\libs\libfreenect\include\;addons\ofxMidi\src\desktop\;addons\ofxOpenCv\libs\opencv\include\opencv2\ml\;addons\ofxKinect\libs\libusb-1.0\include\libusb-1.0\;addons\ofxOpenCv\libs\opencv\include\opencv2\;" />
 		<Build>
 			<Target title="release">
 				<Option output="bin/$(PROJECT_NAME)" prefix_auto="1" extension_auto="1" />
@@ -68,6 +68,7 @@
 			<Add directory="../../../libs/poco/include" />
 			<Add directory="../../../libs/tess2/include" />
 			<Add directory="../../../libs/cairo/include/cairo" />
+			<Add directory="src" />
 			<Add directory="../../../addons/ofxKinect/libs" />
 			<Add directory="../../../addons/ofxKinect/src" />
 			<Add directory="../../../addons/ofxKinect/libs/libfreenect" />
@@ -104,6 +105,7 @@
 			<Add directory="../../../addons/ofxKinect/libs/libusb-win32/include" />
 			<Add directory="../../../addons/ofxKinect/libs/libusb-win32/lib" />
 			<Add directory="../../../addons/ofxKinect/libs/libusb-win32/lib/win_cb" />
+			<Add directory="../../../addons/ofxKinect/src/extra" />
 			<Add directory="../../../addons/ofxOpenCv/libs" />
 			<Add directory="../../../addons/ofxOpenCv/src" />
 			<Add directory="../../../addons/ofxOpenCv/libs/opencv" />
@@ -135,10 +137,14 @@
 			<Add directory="../../../addons/ofxOsc/libs/oscpack/src/osc" />
 			<Add directory="../../../addons/ofxXmlSettings/libs" />
 			<Add directory="../../../addons/ofxXmlSettings/src" />
+			<Add directory="../../../addons/ofxMidi/libs" />
+			<Add directory="../../../addons/ofxMidi/src" />
+			<Add directory="../../../addons/ofxMidi/libs/pgmidi" />
+			<Add directory="../../../addons/ofxMidi/libs/rtmidi" />
+			<Add directory="../../../addons/ofxMidi/src/desktop" />
+			<Add directory="../../../addons/ofxMidi/src/ios" />
 			<Add directory="../../../addons/ofxUI/libs" />
 			<Add directory="../../../addons/ofxUI/src" />
-			<Add directory="../../../addons/ofxMidi/src" />
-			<Add directory="../../../addons/ofxMidi/libs/rtmidi" />
 		</Compiler>
 		<Linker>
 			<Add library="..\..\..\libs\FreeImage\lib\win_cb\FreeImage.lib" />
@@ -187,8 +193,8 @@
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_calib3d231.a" />
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_features2d231.a" />
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_objdetect231.a" />
-			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_imgproc231.a" />
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_video231.a" />
+			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_imgproc231.a" />
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_highgui231.a" />
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_ml231.a" />
 			<Add library="..\..\..\addons\ofxOpenCv\libs\opencv\lib\win_cb\libopencv_core231.a" />
@@ -203,10 +209,13 @@
 			<Add after='cmd /c if not exist &quot;$(PROJECT_DIR)bin/data&quot; mkdir &quot;$(PROJECT_DIR)bin/data&quot;' />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/include/libfreenect-registration.h">
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/include/libfreenect.h">
 			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/include" />
 		</Unit>
-		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/include/libfreenect.h">
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/include/libfreenect_audio.h">
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/include" />
+		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/include/libfreenect_registration.h">
 			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/include" />
 		</Unit>
 		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/platform/windows/libusb10emu/libusb-1.0/failguard.cpp" />
@@ -232,6 +241,10 @@
 		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/platform/windows/unistd.h">
 			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/platform/windows" />
 		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/audio.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
+		</Unit>
 		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/cameras.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
@@ -243,7 +256,25 @@
 			<Option compilerVar="CC" />
 			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
 		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/flags.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/flags.h">
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
+		</Unit>
 		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/freenect_internal.h">
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/keep_alive.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/keep_alive.h">
+			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/loader.c">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="addons/ofxKinect/libs/libfreenect/src" />
 		</Unit>
 		<Unit filename="../../../addons/ofxKinect/libs/libfreenect/src/loader.h">
@@ -273,6 +304,12 @@
 		<Unit filename="../../../addons/ofxKinect/libs/libusb-win32/include/lusb0_usb.h">
 			<Option virtualFolder="addons/ofxKinect/libs/libusb-win32/include" />
 		</Unit>
+		<Unit filename="../../../addons/ofxKinect/src/extra/ofxKinectExtras.cpp">
+			<Option virtualFolder="addons/ofxKinect/src/extra" />
+		</Unit>
+		<Unit filename="../../../addons/ofxKinect/src/extra/ofxKinectExtras.h">
+			<Option virtualFolder="addons/ofxKinect/src/extra" />
+		</Unit>
 		<Unit filename="../../../addons/ofxKinect/src/ofxBase3DVideo.h">
 			<Option virtualFolder="addons/ofxKinect/src" />
 		</Unit>
@@ -282,30 +319,105 @@
 		<Unit filename="../../../addons/ofxKinect/src/ofxKinect.h">
 			<Option virtualFolder="addons/ofxKinect/src" />
 		</Unit>
-		<Unit filename="../../../addons/ofxMidi/libs/rtmidi/RtError.h" />
-		<Unit filename="../../../addons/ofxMidi/libs/rtmidi/RtMidi.cpp" />
-		<Unit filename="../../../addons/ofxMidi/libs/rtmidi/RtMidi.h" />
-		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiIn.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiIn.h" />
-		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiOut.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiOut.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiContext.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiDelegate.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiIn.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiOut.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiSourceDelegate.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxBaseMidi.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxBaseMidi.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidi.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidi.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiConstants.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiIn.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiIn.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiMessage.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiMessage.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiOut.cpp" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiOut.h" />
-		<Unit filename="../../../addons/ofxMidi/src/ofxMidiTypes.h" />
+		<Unit filename="../../../addons/ofxMidi/libs/pgmidi/PGArc.h">
+			<Option virtualFolder="addons/ofxMidi/libs/pgmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/libs/pgmidi/PGMidi.h">
+			<Option virtualFolder="addons/ofxMidi/libs/pgmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/libs/pgmidi/PGMidiAllSources.h">
+			<Option virtualFolder="addons/ofxMidi/libs/pgmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/libs/pgmidi/PGMidiFind.h">
+			<Option virtualFolder="addons/ofxMidi/libs/pgmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/libs/pgmidi/iOSVersionDetection.h">
+			<Option virtualFolder="addons/ofxMidi/libs/pgmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/libs/rtmidi/RtMidi.cpp">
+			<Option virtualFolder="addons/ofxMidi/libs/rtmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/libs/rtmidi/RtMidi.h">
+			<Option virtualFolder="addons/ofxMidi/libs/rtmidi" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiIn.cpp">
+			<Option virtualFolder="addons/ofxMidi/src/desktop" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiIn.h">
+			<Option virtualFolder="addons/ofxMidi/src/desktop" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiOut.cpp">
+			<Option virtualFolder="addons/ofxMidi/src/desktop" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/desktop/ofxRtMidiOut.h">
+			<Option virtualFolder="addons/ofxMidi/src/desktop" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiContext.h">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiContext.mm">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiDelegate.h">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiDelegate.mm">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiIn.h">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiIn.mm">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiOut.h">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiOut.mm">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiSourceDelegate.h">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ios/ofxPGMidiSourceDelegate.mm">
+			<Option virtualFolder="addons/ofxMidi/src/ios" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxBaseMidi.cpp">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxBaseMidi.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidi.cpp">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidi.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiConstants.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiIn.cpp">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiIn.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiMessage.cpp">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiMessage.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiOut.cpp">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiOut.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxMidi/src/ofxMidiTypes.h">
+			<Option virtualFolder="addons/ofxMidi/src" />
+		</Unit>
 		<Unit filename="../../../addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d/calib3d.hpp">
 			<Option virtualFolder="addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d" />
 		</Unit>
@@ -592,9 +704,6 @@
 			<Option virtualFolder="addons/ofxOpenCv/src" />
 		</Unit>
 		<Unit filename="../../../addons/ofxOpenCv/src/ofxCvImage.h">
-			<Option virtualFolder="addons/ofxOpenCv/src" />
-		</Unit>
-		<Unit filename="../../../addons/ofxOpenCv/src/ofxCvMain.h">
 			<Option virtualFolder="addons/ofxOpenCv/src" />
 		</Unit>
 		<Unit filename="../../../addons/ofxOpenCv/src/ofxCvShortImage.cpp">
