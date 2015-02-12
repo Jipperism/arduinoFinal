@@ -101,9 +101,10 @@ void testApp::setGui(){
 //--------------------------------------------------------------
 void testApp::update(){
 
-    updateKinect();
+
 
     if(ofGetFrameNum() % 4 == 0){
+            updateKinect();
         if(kinectOutput > border2){
             byteOutput = ofMap(kinectOutput, maxDistance, border2, 300, 0, true);
             serial.writeByte(byteOutput);
@@ -116,8 +117,7 @@ void testApp::update(){
             byteOutput = ofMap(kinectOutput, border1, 0, 100, 0, true);
             serial.writeByte(byteOutput);
         }
-        cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
-        midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 0, 127));
+    sendMidi(byteOutput);
     }
 
     if(kinectDistance < kinectOutput && kinectDistance != 0){
@@ -125,6 +125,18 @@ void testApp::update(){
     }
     kinectOutput *= (1 + 0.001*downSpeed);
 
+}
+
+void testApp::sendMidi(int byteOutput) {
+    cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
+    midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 127, 0));
+    if(byteOutput >= 200) {
+        midiOut.sendControlChange(midiChannel, 2, ofMap(byteOutput, 200, 300, 0, 127));
+        if(byteOutput >= 100){
+            midiOut.sendControlChange(midiChannel, 3, ofMap(byteOutput, 100, 300, 0, 127));
+        }
+    }
+    midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 0, 127));
 }
 
 //--------------------------------------------------------------

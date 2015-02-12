@@ -23,6 +23,7 @@ class testApp : public ofBaseApp{
 		void setGui();
 		void guiEvent(ofxUIEventArgs &e);
 		void setupMidi();
+        void sendMidi(int byteOutput);
 
 		void keyPressed(int key);
 		void keyReleased(int key);
