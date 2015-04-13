@@ -106,7 +106,7 @@ void testApp::update(){
     if(ofGetFrameNum() % 4 == 0){
             updateKinect();
         if(kinectOutput > border2){
-            byteOutput = ofMap(kinectOutput, maxDistance, border2, 300, 0, true);
+            byteOutput = ofMap(kinectOutput, maxDistance, border2, 300, 200, true);
             serial.writeByte(byteOutput);
         }
         else if(kinectOutput <= border2 && kinectOutput > border1){
