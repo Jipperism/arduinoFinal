@@ -45,7 +45,7 @@ int set_position(int input_stage, int input_byte) {
     if (going_up){
         return pos + output_pos;
     } else {
-        return pos + output_pos;
+        return pos - output_pos;
     }
 }
 
