@@ -15,6 +15,11 @@ boolean going_up = false;
 int lower_borders[] = {0, 40, 120};
 int upper_borders[] = {60, 120, 180};
 
+// Number of steps within one stage. This is also the maximum amount
+// of rotation per cycle.
+int stage_steps = 3;
+int per_step = 100 / stage_steps;
+
 
 void setup() {
     Serial.begin(9600);
@@ -40,7 +45,7 @@ void loop() {
 int set_position(int input_stage, int input_byte) {
     set_flags(input_stage); 
 
-    int output_pos = calculate_difference(input_stage, input_byte);
+    int output_pos = calculate_difference(input_byte);
 
     if (going_up){
         return pos + output_pos;
@@ -68,6 +73,8 @@ void set_flags(int input_stage) {
 }
 
 
-int calculate_difference(int input_stage, int input_byte) {
-    return 3 - input_stage;
+int calculate_difference(int input_byte) {
+    int phase = input_byte % 100;
+    int result = phase / per_step;
+    return result;
 }
