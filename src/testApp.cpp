@@ -104,20 +104,18 @@ void testApp::update(){
 
 
     if(ofGetFrameNum() % 4 == 0){
-            updateKinect();
+        updateKinect();
+
         if(kinectOutput > border2){
-            byteOutput = ofMap(kinectOutput, maxDistance, border2, 300, 200, true);
-            serial.writeByte(byteOutput);
+            byteOutput = ofMap(kinectOutput, maxDistance, border2, 0, 100, true);
+        } else if (kinectOutput <= border2 && kinectOutput > border1){
+            byteOutput = ofMap(kinectOutput, border2, border1, 100, 200, true);
+        } else if(kinectOutput <= border1 && kinectOutput > 0){
+            byteOutput = ofMap(kinectOutput, border1, 0, 200, 300, true);
         }
-        else if(kinectOutput <= border2 && kinectOutput > border1){
-            byteOutput = ofMap(kinectOutput, border2, border1, 200, 100, true);
-            serial.writeByte(byteOutput);
-        }
-        else if(kinectOutput <= border1 && kinectOutput > 0){
-            byteOutput = ofMap(kinectOutput, border1, 0, 100, 0, true);
-            serial.writeByte(byteOutput);
-        }
-    sendMidi(byteOutput);
+        
+        serial.writeByte(byteOutput);
+        sendMidi(byteOutput);
     }
 
     if(kinectDistance < kinectOutput && kinectDistance != 0){
