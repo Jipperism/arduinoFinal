@@ -20,7 +20,6 @@ void testApp::setup(){
 
     kinectOutput = 3500;
     kinectDistance = 0;
-    nBlobs = 1;
     byteOutput = 0;
     maxDistance = 3500;
 
@@ -56,7 +55,8 @@ void testApp::setupKinect(){
     kinect.setRegistration(true);
     kinect.init();
     kinect.open();
-    kinect.setCameraTiltAngle(7);
+    angle = 0;
+    kinect.setCameraTiltAngle(0);
 
     // Allocate grayscale images
     grayImage.allocate(kinect.width, kinect.height);
@@ -100,6 +100,13 @@ void testApp::setupGui(){
 	gui->addSlider("Afnamesnelheid", 1, 9, &downSpeed);
 	gui->addLabelToggle("Draw contours", &bDrawContours);
 
+	gui->addSpacer();
+	gui->addIntSlider("Low treshold", 0, 300, &lowTreshold);
+	gui->addIntSlider("High treshold", 0, 300, &highTreshold);
+    gui->addSlider("MinBlobSize", 0, kinect.width*kinect.height, &minBlobSize);
+    gui->addSlider("MaxBlobSize", 0, kinect.width*kinect.height, &maxBlobSize);
+    gui->addIntSlider("Tilt Angle", 0, 15, &angle);
+
 	#ifdef USE_TWO_KINECTS
 	gui->addLabelToggle("Swap windows", false);
 	#endif
@@ -142,6 +149,7 @@ void testApp::update(){
         unsigned char sendByte = determine_sendByte();
         serial.writeByte(sendByte);
         sendMidi(byteOutput);
+        cout << (int)sendByte << endl;
     }
 
     kinectOutput *= (1 + 0.001*downSpeed);
@@ -255,6 +263,9 @@ void testApp::draw(){
         contourFinder.draw(kinectWindowPos.x, kinectWindowPos.y, 640, 480);
     }
 
+    ofSetColor(255,255,255);
+    grayImage.draw(0, 0, 640, 480);
+
     #ifdef USE_TWO_KINECTS
     ofSetColor(255,255,255);
     kinect2.draw(kinect2WindowPos.x, kinect2WindowPos.y, 640, 480);
@@ -364,4 +375,6 @@ void testApp::guiEvent(ofxUIEventArgs &e) {
         }
     }
     #endif
+
+    kinect.setCameraTiltAngle(angle);
 }

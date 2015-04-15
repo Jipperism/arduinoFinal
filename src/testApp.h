@@ -54,7 +54,7 @@ class testApp : public ofBaseApp{
 
         ofSerial serial;
 
-        int lowTreshold, highTreshold, nBlobs;
+        int lowTreshold, highTreshold, nBlobs, angle;
         float minBlobSize, maxBlobSize;
 
         float byteOutput, maxDistance;
