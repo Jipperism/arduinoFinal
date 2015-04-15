@@ -109,15 +109,15 @@ void testApp::setGui(){
 unsigned char testApp::determine_sendByte(){
 
     if(kinectOutput > border2){
-            byteOutput = ofMap(kinectOutput, maxDistance, border2, 85, 0, true);
+            byteOutput = ofMap(kinectOutput, maxDistance, border2, 0, 85, true);
         } else if (kinectOutput <= border2 && kinectOutput > border1){
-            byteOutput = ofMap(kinectOutput, border2, border1, 170, 85, true);
+            byteOutput = ofMap(kinectOutput, border2, border1, 85, 170, true);
         } else if(kinectOutput <= border1 && kinectOutput > 0){
-            byteOutput = ofMap(kinectOutput, border1, 255, 170, true);
+            byteOutput = ofMap(kinectOutput, border1, 170, 255, true);
         }
 
-    int tempByte = int(byteOutput);
-    unsigned char sendByte = unsigned char(tempByte);
+    int tempByte = (int)byteOutput;
+    unsigned char sendByte = (char)tempByte;
     return sendByte;
 
 }
@@ -157,6 +157,7 @@ void testApp::update(){
     if(kinectDistance < kinectOutput && kinectDistance != 0){
         kinectOutput = kinectDistance;
     }
+
     kinectOutput *= (1 + 0.001*downSpeed);
 
 }
@@ -171,6 +172,7 @@ void testApp::sendMidi(int byteOutput) {
             midiOut.sendControlChange(midiChannel, 3, ofMap(byteOutput, 100, 300, 0, 127));
         }
     }
+
     midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 0, 127));
 }
 
