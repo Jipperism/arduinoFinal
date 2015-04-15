@@ -3,6 +3,8 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 
+    // ofSetLogLevel(OF_LOG_VERBOSE);
+
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
 
@@ -107,14 +109,28 @@ void testApp::update(){
         updateKinect();
 
         if(kinectOutput > border2){
-            byteOutput = ofMap(kinectOutput, maxDistance, border2, 0, 100, true);
+            byteOutput = int(ofMap(kinectOutput, maxDistance, border2, 0, 85, true));
         } else if (kinectOutput <= border2 && kinectOutput > border1){
-            byteOutput = ofMap(kinectOutput, border2, border1, 100, 200, true);
+            byteOutput = int(ofMap(kinectOutput, border2, border1, 85, 170, true));
         } else if(kinectOutput <= border1 && kinectOutput > 0){
-            byteOutput = ofMap(kinectOutput, border1, 0, 200, 300, true);
+            byteOutput = int(ofMap(kinectOutput, border1, 170, 255, true));
         }
-        
-        serial.writeByte(byteOutput);
+
+        //unsigned char temp_output = char(byteOutput);
+        //cout << (int) temp_output << endl;
+        int temp_int = (int)byteOutput;
+        unsigned int temp_u_int = (unsigned int)temp_int;
+
+        unsigned char buf[4];
+        buf[0] = temp_u_int & 0xff;
+        buf[1] = (temp_u_int>>8)  & 0xff;
+        buf[2] = (temp_u_int>>16) & 0xff;
+        buf[3] = (temp_u_int>>24) & 0xff;
+
+        //device.writeBytes(&buf[0], 3);
+
+        cout << buf << endl;
+        serial.writeBytes(&buf[0], 4);
         sendMidi(byteOutput);
     }
 
@@ -126,7 +142,7 @@ void testApp::update(){
 }
 
 void testApp::sendMidi(int byteOutput) {
-    cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
+    // cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
     midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 127, 0));
     if(byteOutput >= 200) {
         midiOut.sendControlChange(midiChannel, 2, ofMap(byteOutput, 200, 300, 0, 127));

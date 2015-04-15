@@ -30,8 +30,8 @@ void setup() {
 
 void loop() {
     // Read incoming data from the serial port.
-    if (Serial.available() > 0) {inByte = Serial.parseInt();}
-
+    if (Serial.available()) {inByte = Serial.parseInt();}
+    Serial.write("d");
     stage = determine_stage(inByte);
 
     pos = set_position(stage, inByte);
