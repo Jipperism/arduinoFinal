@@ -19,11 +19,13 @@ class testApp : public ofBaseApp{
 		void draw();
 		void exit();
 
+        void setupKinect();
 		void updateKinect();
 		void setGui();
 		void guiEvent(ofxUIEventArgs &e);
 		void setupMidi();
         void sendMidi(int byteOutput);
+        unsigned char determine_sendByte();
 
 		void keyPressed(int key);
 		void keyReleased(int key);

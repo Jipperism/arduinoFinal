@@ -8,30 +8,6 @@ void testApp::setup(){
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
 
-    kinect.setRegistration(true);
-    kinect.init();
-    kinect.open();
-    kinect.setCameraTiltAngle(7);
-    grayImage.allocate(kinect.width, kinect.height);
-	grayThreshNear.allocate(kinect.width, kinect.height);
-	grayThreshFar.allocate(kinect.width, kinect.height);
-    kinectWindowPos.x = 0;
-    kinectWindowPos.y = 0;
-
-    #ifdef USE_TWO_KINECTS
-    kinect2.setRegistration(true);
-    kinect2.init();
-	kinect2.open();
-    kinect2.setCameraTiltAngle(0);
-    grayImage2.allocate(kinect2.width, kinect2.height);
-	grayThreshNear2.allocate(kinect2.width, kinect2.height);
-	grayThreshFar2.allocate(kinect2.width, kinect2.height);
-    kinect2WindowPos.x = 640;
-    kinect2WindowPos.y = 0;
-    #endif
-
-
-
     lowTreshold = 300;
 	highTreshold = 0;
 	nBlobs = 1;
@@ -61,12 +37,41 @@ void testApp::setup(){
 
 }
 
+//--------------------------------------------------------------
 void testApp::setupMidi() {
 
     midiOut.listPorts();
 	midiOut.openPort(1);
 
 	midiChannel = 1;
+
+
+}
+
+//--------------------------------------------------------------
+void testApp::setupKinect(){
+
+    kinect.setRegistration(true);
+    kinect.init();
+    kinect.open();
+    kinect.setCameraTiltAngle(7);
+    grayImage.allocate(kinect.width, kinect.height);
+	grayThreshNear.allocate(kinect.width, kinect.height);
+	grayThreshFar.allocate(kinect.width, kinect.height);
+    kinectWindowPos.x = 0;
+    kinectWindowPos.y = 0;
+
+    #ifdef USE_TWO_KINECTS
+    kinect2.setRegistration(true);
+    kinect2.init();
+	kinect2.open();
+    kinect2.setCameraTiltAngle(0);
+    grayImage2.allocate(kinect2.width, kinect2.height);
+	grayThreshNear2.allocate(kinect2.width, kinect2.height);
+	grayThreshFar2.allocate(kinect2.width, kinect2.height);
+    kinect2WindowPos.x = 640;
+    kinect2WindowPos.y = 0;
+    #endif
 
 
 }
@@ -101,25 +106,40 @@ void testApp::setGui(){
 }
 
 //--------------------------------------------------------------
+unsigned char testApp::determine_sendByte(){
+
+    if(kinectOutput > border2){
+            byteOutput = ofMap(kinectOutput, maxDistance, border2, 85, 0, true);
+        } else if (kinectOutput <= border2 && kinectOutput > border1){
+            byteOutput = ofMap(kinectOutput, border2, border1, 170, 85, true);
+        } else if(kinectOutput <= border1 && kinectOutput > 0){
+            byteOutput = ofMap(kinectOutput, border1, 255, 170, true);
+        }
+
+    int tempByte = int(byteOutput);
+    unsigned char sendByte = unsigned char(tempByte);
+    return sendByte;
+
+}
+
+//--------------------------------------------------------------
 void testApp::update(){
 
 
 
     if(ofGetFrameNum() % 4 == 0){
         updateKinect();
+        unsigned char sendByte = determine_sendByte();
+        serial.writeByte(sendByte);
+        sendMidi(byteOutput);
 
-        if(kinectOutput > border2){
-            byteOutput = int(ofMap(kinectOutput, maxDistance, border2, 0, 85, true));
-        } else if (kinectOutput <= border2 && kinectOutput > border1){
-            byteOutput = int(ofMap(kinectOutput, border2, border1, 85, 170, true));
-        } else if(kinectOutput <= border1 && kinectOutput > 0){
-            byteOutput = int(ofMap(kinectOutput, border1, 170, 255, true));
-        }
-
+        /*
         //unsigned char temp_output = char(byteOutput);
         //cout << (int) temp_output << endl;
         int temp_int = (int)byteOutput;
         unsigned int temp_u_int = (unsigned int)temp_int;
+
+
 
         unsigned char buf[4];
         buf[0] = temp_u_int & 0xff;
@@ -130,8 +150,8 @@ void testApp::update(){
         //device.writeBytes(&buf[0], 3);
 
         cout << buf << endl;
-        serial.writeBytes(&buf[0], 4);
-        sendMidi(byteOutput);
+        serial.writeBytes(&buf[0], 4);*/
+
     }
 
     if(kinectDistance < kinectOutput && kinectDistance != 0){
@@ -141,6 +161,7 @@ void testApp::update(){
 
 }
 
+//--------------------------------------------------------------
 void testApp::sendMidi(int byteOutput) {
     // cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
     midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 127, 0));
