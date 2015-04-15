@@ -21,11 +21,12 @@ class testApp : public ofBaseApp{
 
         void setupKinect();
 		void updateKinect();
-		void setGui();
+		void setupGui();
 		void guiEvent(ofxUIEventArgs &e);
 		void setupMidi();
         void sendMidi(int byteOutput);
         unsigned char determine_sendByte();
+        unsigned char testByte;
 
 		void keyPressed(int key);
 		void keyReleased(int key);

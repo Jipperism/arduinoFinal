@@ -4,18 +4,19 @@
 void testApp::setup(){
 
     // ofSetLogLevel(OF_LOG_VERBOSE);
+    testByte = 0;
+
+    setupKinect();
 
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
 
+    // Kinect interface default settings
     lowTreshold = 300;
 	highTreshold = 0;
 	nBlobs = 1;
 	minBlobSize = ofGetWindowHeight()*ofGetWindowWidth()/20;
 	maxBlobSize = ofGetWindowHeight()*ofGetWindowWidth()/2;
-
-    serial.enumerateDevices();
-    serial.setup("COM3", 9600);
 
     kinectOutput = 3500;
     kinectDistance = 0;
@@ -27,12 +28,14 @@ void testApp::setup(){
     border2 = 1000;
     kinectOutput = maxDistance;
 
-    downSpeed = 5;
-
     bDrawContours = true;
 
-    setGui();
+    // Serial default settings
+    serial.enumerateDevices();
+    serial.setup("COM3", 9600);
+    downSpeed = 5;
 
+    setupGui();
     setupMidi();
 
 }
@@ -42,19 +45,20 @@ void testApp::setupMidi() {
 
     midiOut.listPorts();
 	midiOut.openPort(1);
-
 	midiChannel = 1;
-
 
 }
 
 //--------------------------------------------------------------
 void testApp::setupKinect(){
 
+    // Initialise kinect connection and set default angle
     kinect.setRegistration(true);
     kinect.init();
     kinect.open();
     kinect.setCameraTiltAngle(7);
+
+    // Allocate grayscale images
     grayImage.allocate(kinect.width, kinect.height);
 	grayThreshNear.allocate(kinect.width, kinect.height);
 	grayThreshFar.allocate(kinect.width, kinect.height);
@@ -77,7 +81,7 @@ void testApp::setupKinect(){
 }
 
 //--------------------------------------------------------------
-void testApp::setGui(){
+void testApp::setupGui(){
 
     gui = new ofxUISuperCanvas("KINECT & BORDERS");
 	gui->loadSettings("settings.xml");
@@ -108,14 +112,20 @@ void testApp::setGui(){
 //--------------------------------------------------------------
 unsigned char testApp::determine_sendByte(){
 
+    // Map byteOutput to a value between 0 and 255, according to the
+    // stage it is in
     if(kinectOutput > border2){
-            byteOutput = ofMap(kinectOutput, maxDistance, border2, 0, 85, true);
-        } else if (kinectOutput <= border2 && kinectOutput > border1){
-            byteOutput = ofMap(kinectOutput, border2, border1, 85, 170, true);
-        } else if(kinectOutput <= border1 && kinectOutput > 0){
-            byteOutput = ofMap(kinectOutput, border1, 170, 255, true);
-        }
+            byteOutput =
+            ofMap(kinectOutput, maxDistance, border2, 0, 85, true);
+    } else if (kinectOutput <= border2 && kinectOutput > border1){
+            byteOutput =
+            ofMap(kinectOutput, border2, border1, 85, 170, true);
+    } else if(kinectOutput <= border1 && kinectOutput > 0){
+            byteOutput =
+            ofMap(kinectOutput, border1, 170, 255, true);
+    }
 
+    // Convert the float value of byteOutput to an unsigned char
     int tempByte = (int)byteOutput;
     unsigned char sendByte = (char)tempByte;
     return sendByte;
@@ -126,36 +136,12 @@ unsigned char testApp::determine_sendByte(){
 void testApp::update(){
 
 
-
+    // Run loop every 4 frames because of serial reading speed arduino
     if(ofGetFrameNum() % 4 == 0){
         updateKinect();
         unsigned char sendByte = determine_sendByte();
         serial.writeByte(sendByte);
         sendMidi(byteOutput);
-
-        /*
-        //unsigned char temp_output = char(byteOutput);
-        //cout << (int) temp_output << endl;
-        int temp_int = (int)byteOutput;
-        unsigned int temp_u_int = (unsigned int)temp_int;
-
-
-
-        unsigned char buf[4];
-        buf[0] = temp_u_int & 0xff;
-        buf[1] = (temp_u_int>>8)  & 0xff;
-        buf[2] = (temp_u_int>>16) & 0xff;
-        buf[3] = (temp_u_int>>24) & 0xff;
-
-        //device.writeBytes(&buf[0], 3);
-
-        cout << buf << endl;
-        serial.writeBytes(&buf[0], 4);*/
-
-    }
-
-    if(kinectDistance < kinectOutput && kinectDistance != 0){
-        kinectOutput = kinectDistance;
     }
 
     kinectOutput *= (1 + 0.001*downSpeed);
@@ -181,21 +167,25 @@ void testApp::updateKinect(){
 
     kinect.update();
 
-    grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
-
+    // Substract grayscales for blobtracking
+    grayImage.setFromPixels(kinect.getDepthPixels(),
+                            kinect.width, kinect.height);
     grayThreshNear = grayImage;
     grayThreshFar = grayImage;
     grayThreshNear.threshold(lowTreshold, true);
     grayThreshFar.threshold(highTreshold);
-    cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
+    cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(),
+          grayImage.getCvImage(), NULL);
     grayImage.flagImageChanged();
 
-    contourFinder.findContours(grayImage, minBlobSize, maxBlobSize, nBlobs, true);
+    contourFinder.findContours(grayImage, minBlobSize, maxBlobSize,
+                               nBlobs, true);
 
     if(contourFinder.nBlobs != 0){
         for (int i=0; i < nBlobs; i++){
             ofVec3f tempPos = contourFinder.blobs[i].centroid;
-            ofPoint tempKinectPos = kinect.getWorldCoordinateAt(tempPos.x, tempPos.y);
+            ofPoint tempKinectPos =
+            kinect.getWorldCoordinateAt(tempPos.x, tempPos.y);
             if (tempKinectPos.z != 0){
                 kinectDistance = tempKinectPos.z;
             }
@@ -206,21 +196,25 @@ void testApp::updateKinect(){
     #ifdef USE_TWO_KINECTS
     kinect2.update();
 
-    grayImage2.setFromPixels(kinect2.getDepthPixels(), kinect2.width, kinect2.height);
+    grayImage2.setFromPixels(kinect2.getDepthPixels(),
+                             kinect2.width, kinect2.height);
 
     grayThreshNear2 = grayImage2;
     grayThreshFar2 = grayImage2;
     grayThreshNear2.threshold(lowTreshold, true);
     grayThreshFar2.threshold(highTreshold);
-    cvAnd(grayThreshNear2.getCvImage(), grayThreshFar2.getCvImage(), grayImage2.getCvImage(), NULL);
+    cvAnd(grayThreshNear2.getCvImage(), grayThreshFar2.getCvImage(),
+          grayImage2.getCvImage(), NULL);
     grayImage2.flagImageChanged();
 
-    contourFinder2.findContours(grayImage2, minBlobSize, maxBlobSize, nBlobs, true);
+    contourFinder2.findContours(grayImage2, minBlobSize,
+                                maxBlobSize, nBlobs, true);
 
     if(contourFinder2.nBlobs != 0){
         for (int i=0; i < nBlobs; i++){
             ofVec3f tempPos = contourFinder2.blobs[i].centroid;
-            ofPoint tempKinectPos = kinect2.getWorldCoordinateAt(tempPos.x, tempPos.y);
+            ofPoint tempKinectPos =
+            kinect2.getWorldCoordinateAt(tempPos.x, tempPos.y);
             if (tempKinectPos.z != 0){
                 kinect2Distance = tempKinectPos.z;
             }
@@ -231,14 +225,23 @@ void testApp::updateKinect(){
         kinectDistance = kinect2Distance;
     }
     #endif
+
+    // Only set the new kinectOutput to the new distance if it is smaller
+    // then the previous value (the blob has come closer).
+    if(kinectDistance < kinectOutput && kinectDistance != 0){
+        kinectOutput = kinectDistance;
+    }
+
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
 
+    // Draw visual output of the kinects
     ofSetColor(255,255,255);
     kinect.draw(kinectWindowPos.x, kinectWindowPos.y, 640, 480);
 
+    // Draw centroids
     ofSetColor(255,0,0);
     if(contourFinder.nBlobs != 0){
         ofPoint centroidPos = contourFinder.blobs[0].centroid;
@@ -246,6 +249,7 @@ void testApp::draw(){
         ofCircle(centroidPos, 20);
     }
 
+    // Draw contours
     ofSetColor(0,0,0);
     if (bDrawContours){
         contourFinder.draw(kinectWindowPos.x, kinectWindowPos.y, 640, 480);
@@ -264,7 +268,8 @@ void testApp::draw(){
 
     ofSetColor(0,0,0);
     if (bDrawContours){
-        contourFinder2.draw(kinect2WindowPos.x, kinect2WindowPos.y, 640, 480);
+        contourFinder2.draw(kinect2WindowPos.x,
+                            kinect2WindowPos.y, 640, 480);
     }
     #endif
 }
@@ -275,6 +280,13 @@ void testApp::keyPressed(int key){
     if (key == ' '){
         kinectDistance = 0;
     }
+    if (key == OF_KEY_UP){
+        testByte += 1;
+    }
+    if (key == OF_KEY_DOWN){
+        testByte -= 1;
+    }
+    cout << (int)testByte << endl;
 }
 
 //--------------------------------------------------------------

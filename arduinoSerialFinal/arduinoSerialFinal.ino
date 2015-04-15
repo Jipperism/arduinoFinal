@@ -12,12 +12,12 @@ int inByte = 0;
 boolean going_up = false;
 
 // Configure borders of different stages
-int lower_borders[] = {0, 40, 120};
-int upper_borders[] = {60, 120, 180};
+int lower_borders[] = {0, 0, 0};
+int upper_borders[] = {60, 120, 179};
 
 // Number of steps within one stage. This is also the maximum amount
 // of rotation per cycle.
-int stage_steps = 3;
+int stage_steps = 2;
 int per_step =  85 / stage_steps;
 
 
@@ -31,10 +31,12 @@ void setup() {
 void loop() {
     // Read incoming data from the serial port.
     if (Serial.available() > 0) {inByte = (int)Serial.read();}
+    
+    // Determine the stage ( 0, 1, 2).
     stage = determine_stage(inByte);
 
     pos = set_position(stage, inByte);
-    pos = constrain(pos, 0, 180);
+    pos = constrain(pos, 0, 179);
                                   
     myservo.write(pos);               
     delay(15);
@@ -57,6 +59,7 @@ int set_position(int input_stage, int input_byte) {
 int determine_stage(int inputByte) {
     // Determine the stage (0,1,2). 0 is furthest away.
     int result_stage = inputByte / 85;
+    result_stage = constrain(result_stage, 0, 2);
     return result_stage;
 }
 
@@ -75,5 +78,6 @@ void set_flags(int input_stage) {
 int calculate_difference(int input_byte) {
     int phase = input_byte % 85;
     int result = phase / per_step;
+    result += 1;
     return result;
 }
