@@ -68,5 +68,6 @@ class testApp : public ofBaseApp{
 
         int midiChannel;
         ofxMidiOut midiOut;
+        bool midiOn;
 
 };

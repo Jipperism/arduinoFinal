@@ -43,8 +43,9 @@ void testApp::setup(){
 void testApp::setupMidi() {
 
     midiOut.listPorts();
-	midiOut.openPort(1);
+	midiOut.openPort("Bloem MIDI");
 	midiChannel = 1;
+	midiOn = true;
 
 }
 
@@ -158,16 +159,26 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::sendMidi(int byteOutput) {
-    // cout << ofMap(byteOutput, 0, 300, 0, 127) << endl;
-    midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 127, 0));
-    if(byteOutput >= 200) {
-        midiOut.sendControlChange(midiChannel, 2, ofMap(byteOutput, 200, 300, 0, 127));
-        if(byteOutput >= 100){
-            midiOut.sendControlChange(midiChannel, 3, ofMap(byteOutput, 100, 300, 0, 127));
+
+    // use the key controlled testByte for debugging
+
+    byteOutput = testByte;
+
+    // when midi is turned on this will map and send output to Ableton
+
+    if(midiOn == true){
+        midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 255, 127, 0));
+        if(byteOutput >= 170) {
+            midiOut.sendControlChange(midiChannel, 2, ofMap(byteOutput, 170, 255, 0, 127));
+        } else {
+            midiOut.sendControlChange(midiChannel, 2, 0);
+        }
+        if(byteOutput >= 85){
+            midiOut.sendControlChange(midiChannel, 3, ofMap(byteOutput, 85, 255, 0, 127));
+        } else {
+            midiOut.sendControlChange(midiChannel, 3, 0);
         }
     }
-
-    midiOut.sendControlChange(midiChannel, 1, ofMap(byteOutput, 0, 300, 0, 127));
 }
 
 //--------------------------------------------------------------
@@ -288,6 +299,8 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 
+    // keys for testing output without a kinect
+
     if (key == ' '){
         kinectDistance = 0;
     }
@@ -297,6 +310,30 @@ void testApp::keyPressed(int key){
     if (key == OF_KEY_DOWN){
         testByte -= 1;
     }
+
+    // keys for setting up Ableton configuration
+
+    if (key == '1'){
+        midiOut.sendControlChange(midiChannel, 1, 20);
+    }
+    if (key == '2'){
+        midiOut.sendControlChange(midiChannel, 2, 50);
+    }
+    if (key == '3'){
+        midiOut.sendControlChange(midiChannel, 3, 120);
+    }
+
+    // turn off all MIDI except for the keypresses above
+
+    if (key == 'x'){
+        midiOn = !midiOn;
+        midiOut.sendControlChange(midiChannel, 3, 0);
+        midiOut.sendControlChange(midiChannel, 2, 0);
+        midiOut.sendControlChange(midiChannel, 1, 0);
+    }
+
+    // output the testByte for debugging purposes
+
     cout << (int)testByte << endl;
 }
 
